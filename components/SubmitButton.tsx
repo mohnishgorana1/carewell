@@ -11,7 +11,11 @@ interface ButtonProps {
 
 function SubmitButton({ isLoading, classNames, children }: ButtonProps) {
   return (
-    <Button type='submit' disabled={isLoading} className={classNames ?? 'shad-primary-btn w-full'}>
+    <Button
+      type='submit'
+      disabled={isLoading}
+      className={classNames ?? 'shad-primary-btn w-full'}
+    >
       {
         isLoading ? (
           <div className='flex items-center gap-4'>
@@ -24,7 +28,9 @@ function SubmitButton({ isLoading, classNames, children }: ButtonProps) {
             />
             Loading...
           </div>
-        ) : children
+        ) : (
+          children
+        )
       }
     </Button>
   )

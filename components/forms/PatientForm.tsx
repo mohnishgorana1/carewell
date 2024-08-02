@@ -13,6 +13,7 @@ import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
+import { createUser } from "@/lib/actions/patient.actions"
 
 
 export enum FormFieldTypes {
@@ -47,19 +48,19 @@ export default function PatientForm() {
     setIsLoading(true)
     try {
       console.log("Submitted values", values)
-      // const userData = { name, email, phone }
+      const userData = { name, email, phone }
 
-      // const user = await createUser(userData)
-
-      // if(user){
-      //   router.push(`/patients/${user.$id}/register`)
-      // }
+      const newUser = await createUser(userData)
+      
+      if (newUser!) {
+        router.push(`/patients/${newUser.$id}/register`)
+      }
 
     } catch (error) {
       console.log(error)
-    } finally {
-      setIsLoading(false)
     }
+    setIsLoading(false)
+
 
   }
 
