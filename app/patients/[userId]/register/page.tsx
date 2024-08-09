@@ -9,7 +9,8 @@ import { redirect } from "next/navigation";
 async function Register ({ params: { userId } }: SearchParamProps) {
     const user = await getUser(userId)
     
-    // const patient = await getPatient(userId);
+    const patient = await getPatient(userId);
+    // if (patient) redirect(`/patients/${userId}/new-appointment`);
     return (
         <div className="flex h-screen max-h-screen">
             <section className="remove-scrollbar container ">

@@ -6,9 +6,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
+
 function NewAppointmentPage({ params: { userId } }: SearchParamProps) {
     console.log("userId", userId);
     const [patient, setPatient] = useState(null);
+
+
 
     const getPatientDetails = async (userId: string) => {
         const patientData = await getPatient(userId);
