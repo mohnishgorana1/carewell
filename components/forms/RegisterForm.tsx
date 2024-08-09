@@ -44,9 +44,9 @@ export default function RegisterForm({ user }: { user: User }) {
         resolver: zodResolver(PatientFormValidation),
         defaultValues: {
             ...PatientFormDefaultValues,
-            name: "",
-            email: "",
-            phone: ""
+            name: user.name,
+            email: user.email,
+            phone: user.phone
         },
     })
 
@@ -70,20 +70,24 @@ export default function RegisterForm({ user }: { user: User }) {
             formData.append('fileName', values.identificationDocument[0].name)
         }
 
+        console.log("creating new patient");
+        
         try {
             const patientData = {
                 ...values,
                 userId: user.$id,
                 birthDate: new Date(values.birthDate),
                 identificationDocument: formData,
-
             }
 
             console.log("patientData", patientData);
             
             // @ts-ignore
             const patient = await registerPatient(patientData)
+            
             if(patient){
+                console.log("patint created", patient);
+                
                 router.push(`/patients/${user.$id}/new-appointment`)
             }
             

@@ -21,13 +21,16 @@ import { parseStringify } from "../utils"
 export const createUser = async (user: CreateUserParams) => {
     try {
         // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
+        console.log("creating new USER: ", user);
+
         const newUser = await users.create(
             ID.unique(),
             user.email,
             user.phone,
-            undefined,
-            user.name
+            undefined,  //password (optional)_
+            user.name    // name optional
         );
+        console.log("new USer created", newUser);
 
         return parseStringify(newUser);
     } catch (error: any) {
@@ -45,7 +48,10 @@ export const createUser = async (user: CreateUserParams) => {
 
 export const getUser = async (userId: string) => {
     try {
+        console.log("Finding user", userId);
+
         const user = await users.get(userId)
+        console.log("returning user", user);
 
         return parseStringify(user)
     } catch (error) {
@@ -57,6 +63,8 @@ export const getUser = async (userId: string) => {
 
 export const registerPatient = async ({ identificationDocument, ...patient }: RegisterUserParams) => {
     try {
+        console.log("Registering patient");
+        
         let file;
         if (identificationDocument) {
             const inputFile = InputFile.fromBuffer(
@@ -82,9 +90,29 @@ export const registerPatient = async ({ identificationDocument, ...patient }: Re
                 ...patient
             }  // this is data
         )
+        console.log("NEW PATIENT CREATED", newPatient);
 
         return parseStringify(newPatient)
     } catch (error) {
         console.log("Error Registering Patient", error)
+    }
+}
+
+
+export const getPatient = async (userId: string) => {
+    try {
+        console.log("Finding patient for userID = ", userId);
+
+        const patient = await databases.listDocuments(
+            DATABASE_ID!,
+            PATIENT_COLLECTION_ID!,
+            [Query.equal("userId", [userId])]
+        )
+        console.log("patient", patient.documents[0]);
+
+        return parseStringify(patient.documents[0])
+    } catch (error) {
+        console.log(error);
+
     }
 }
