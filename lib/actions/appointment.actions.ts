@@ -49,9 +49,9 @@ export const getRecentAppointmentList = async () => {
         const appointments = await databases.listDocuments(
             DATABASE_ID!,
             APPOINTMENTS_COLLECTION_ID!,
-            // [
-            //     Query.orderDesc('$createdAt')
-            // ]
+            [
+                Query.orderDesc('$createdAt')
+            ]
         );
 
         console.log("appointments list", appointments);
